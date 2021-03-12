@@ -1,1 +1,4 @@
+# for discord
 discord.py
+# for dotenv
+python-dotenv
