@@ -1,0 +1,11 @@
+{
+  "announcements": [
+    {
+      "name": "spam",
+      "delay": 5,
+      "last_sent": 1615572792.5989263,
+      "id": 789669963118936094,
+      "message": "SPAM"
+    }
+  ]
+}
