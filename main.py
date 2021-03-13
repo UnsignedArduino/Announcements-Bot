@@ -9,6 +9,7 @@ from dotenv import load_dotenv
 import json
 from pathlib import Path
 from time import time as unix
+import arrow
 import logging
 from create_logger import create_logger
 
@@ -74,9 +75,11 @@ async def announcement_status(ctx, name: str):
         embed = discord.Embed(title="📢 Announcement 📢", description=f"Status of announcement {repr(name)}")
         embed.add_field(name="Pretty name", value=specified_announcement["pretty_name"], inline=True)
         embed.add_field(name="Enabled", value=specified_announcement["enabled"], inline=True)
-        # Prettify with arrow
-        embed.add_field(name="Last triggered", value=specified_announcement["last_sent"], inline=True)
-        embed.add_field(name="Delay", value=specified_announcement["delay"], inline=True)
+        embed.add_field(name="Last triggered", value=arrow.get(specified_announcement["last_sent"]).humanize(),
+                        inline=True)
+        embed.add_field(name="Delay",
+                        value=arrow.get(unix() - specified_announcement["delay"]).humanize(only_distance=True),
+                        inline=True)
     await ctx.send(embed=embed)
 
 

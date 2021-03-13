@@ -3,8 +3,8 @@
     {
       "name": "spam",
       "pretty_name": "Spam Announcement",
-      "delay": 5,
-      "last_sent": 1615607941.3746927,
+      "delay": 60,
+      "last_sent": 1615608249.6983342,
       "id": 789669963118936094,
       "message": "SPAM",
       "enabled": false
