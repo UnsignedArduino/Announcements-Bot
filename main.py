@@ -35,10 +35,13 @@ async def check_to_send():
         if next_send < unix():
             logger.debug(f"{repr(announcement['name'])} is due by {repr(unix() - next_send)} seconds!")
             announcement["last_sent"] = unix()
-            channel = bot.get_channel(announcement["id"])
-            logger.debug(f"Getting channel {repr(channel)} (ID: {repr(announcement['id'])})")
-            logger.debug(f"Sending message with a length of {repr(len(announcement['message']))} characters")
-            await channel.send(announcement["message"])
+            if announcement["enabled"]:
+                channel = bot.get_channel(announcement["id"])
+                logger.debug(f"Getting channel {repr(channel)} (ID: {repr(announcement['id'])})")
+                logger.debug(f"Sending message with a length of {repr(len(announcement['message']))} characters")
+                await channel.send(announcement["message"])
+            else:
+                logger.debug(f"Would have sent message, but this announcement is disabled!")
     logger.debug(f"Saving configuration to {repr(CONFIG_PATH)}...")
     CONFIG_PATH.write_text(json.dumps(config, indent=2))
     logger.debug(f"Finished!")
