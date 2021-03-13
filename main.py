@@ -66,13 +66,12 @@ async def announcement_status(ctx, name: str):
     for announcement in config["announcements"]:
         if announcement["name"] == name:
             specified_announcement = announcement
+    embed = discord.Embed(title="📢 Announcement 📢", description=f"Status of announcement {repr(name)}")
     if specified_announcement is None:
-        embed = discord.Embed(title="📢 Announcement 📢", description=f"Status of announcement {repr(name)}")
         embed.add_field(name="Error!",
                         value="That is not an announcement! You can list announcements with the ~list command!",
                         inline=True)
     else:
-        embed = discord.Embed(title="📢 Announcement 📢", description=f"Status of announcement {repr(name)}")
         embed.add_field(name="Pretty name", value=specified_announcement["pretty_name"], inline=True)
         embed.add_field(name="Enabled", value=specified_announcement["enabled"], inline=True)
         embed.add_field(name="Last triggered", value=arrow.get(specified_announcement["last_sent"]).humanize(),
@@ -80,6 +79,46 @@ async def announcement_status(ctx, name: str):
         embed.add_field(name="Delay",
                         value=arrow.get(unix() - specified_announcement["delay"]).humanize(only_distance=True),
                         inline=True)
+    await ctx.send(embed=embed)
+
+
+@bot.command(name="enable", help="Enables an announcement")
+async def enable(ctx, name: str):
+    logger.debug(f"Enabling announcement requested from {repr(ctx)}")
+    specified_announcement = None
+    for announcement in config["announcements"]:
+        if announcement["name"] == name:
+            specified_announcement = announcement
+    embed = discord.Embed(title="📢 Announcement 📢", description=f"Enable announcement {repr(name)}")
+    if specified_announcement is None:
+        embed.add_field(name="Error!",
+                        value="That is not an announcement! You can list announcements with the ~list command!",
+                        inline=True)
+    else:
+        specified_announcement["enabled"] = True
+        logger.debug(f"Saving configuration to {repr(CONFIG_PATH)}...")
+        CONFIG_PATH.write_text(json.dumps(config, indent=2))
+        embed.add_field(name="✅ Success! ✅", value=f"Announcement {repr(name)} successfully enabled!", inline=False)
+    await ctx.send(embed=embed)
+
+
+@bot.command(name="disable", help="Disables an announcement")
+async def disable(ctx, name: str):
+    logger.debug(f"Disabling announcement requested from {repr(ctx)}")
+    specified_announcement = None
+    for announcement in config["announcements"]:
+        if announcement["name"] == name:
+            specified_announcement = announcement
+    embed = discord.Embed(title="📢 Announcement 📢", description=f"Disable announcement {repr(name)}")
+    if specified_announcement is None:
+        embed.add_field(name="Error!",
+                        value="That is not an announcement! You can list announcements with the ~list command!",
+                        inline=True)
+    else:
+        specified_announcement["enabled"] = False
+        logger.debug(f"Saving configuration to {repr(CONFIG_PATH)}...")
+        CONFIG_PATH.write_text(json.dumps(config, indent=2))
+        embed.add_field(name="✅ Success! ✅", value=f"Announcement {repr(name)} successfully disabled!", inline=False)
     await ctx.send(embed=embed)
 
 
@@ -102,6 +141,9 @@ async def check_to_send():
     logger.debug(f"Saving configuration to {repr(CONFIG_PATH)}...")
     CONFIG_PATH.write_text(json.dumps(config, indent=2))
     logger.debug(f"Finished!")
+
+
+# TODO: Override the ugly built in help
 
 
 @bot.event
