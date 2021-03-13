@@ -2,8 +2,9 @@
   "announcements": [
     {
       "name": "spam",
+      "pretty_name": "Spam Announcement",
       "delay": 5,
-      "last_sent": 1615600488.2204857,
+      "last_sent": 1615605922.2504797,
       "id": 789669963118936094,
       "message": "SPAM",
       "enabled": false

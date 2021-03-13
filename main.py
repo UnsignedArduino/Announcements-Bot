@@ -28,7 +28,7 @@ logger.debug(f"Configuration:\n{repr(config)}")
 @bot.event
 async def on_ready():
     logger.info(f"{bot.user} has connected to {len(bot.guilds)} guild(s)!")
-    await bot.change_presence(activity=discord.Activity(type=discord.ActivityType.listening, name="~"))
+    await bot.change_presence(activity=discord.Activity(type=discord.ActivityType.listening, name="~help"))
     check_to_send.start()
 
 
@@ -38,6 +38,21 @@ async def ping(ctx):
     ping_ms = round(bot.latency * 1000)
     logger.debug(f"Ping is {repr(ping_ms)} ms")
     embed = discord.Embed(title="🏓 Pong! 🏓", description=f"Latency is {ping_ms} ms!")
+    await ctx.send(embed=embed)
+
+
+@bot.command(name="list")
+async def list_announcements(ctx):
+    logger.debug(f"List of announcements requested from {repr(ctx)}")
+    embed = discord.Embed(title="📃 Announcements list 📃",
+                          description="List of announcements - use ~status announcement_name to check its status!")
+    if len(config["announcements"]) > 0:
+        for announcement in config["announcements"]:
+            logger.debug(f"Adding announcement {repr(announcement['name'])} to embed!")
+            embed.add_field(name=announcement["pretty_name"], value=announcement["name"], inline=True)
+    else:
+        embed.add_field(name="No announcement found!",
+                        value="Please edit the configuration file for more announcements!", inline=True)
     await ctx.send(embed=embed)
 
 
