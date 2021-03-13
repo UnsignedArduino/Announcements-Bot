@@ -1,12 +1,39 @@
 {
   "announcements": [
     {
-      "name": "spam",
-      "pretty_name": "Spam Announcement",
-      "delay": 60,
-      "last_sent": 1615676666.726447,
-      "id": 789669963118936094,
-      "message": "SPAM",
+      "name": "sunday_morning_stream",
+      "pretty_name": "Sunday Morning Stream",
+      "delay": 604800,
+      "last_sent": 1615110000,
+      "id": 688888624942678051,
+      "message": "► SUNDAY MORNING STREAM IS OPEN! ◄\n\nWe're starting at 10am! \n\nCheck pinned messages in #weekend-streams for links/details.\n\nhttps://imgur.com/a/K2kqarN",
+      "enabled": false
+    },
+    {
+      "name": "tuesday_prayer_room",
+      "pretty_name": "Tuesday Prayer Room",
+      "delay": 604800,
+      "last_sent": 1615318800,
+      "id": 688888624942678051,
+      "message": "► JOIN US IN THE PRAYER ROOM! ◄\n\nWe're starting at 8pm in #prayer-room! \n\nJoin us at any time for a dedicated time to pray and be in God's word alongside others.\n\nhttps://imgur.com/a/Pe4k2km",
+      "enabled": false
+    },
+    {
+      "name": "wednesday_game_night",
+      "pretty_name": "Wednesday Game Night",
+      "delay": 604800,
+      "last_sent": 1615405500,
+      "id": 688888624942678051,
+      "message": "► JACKBOX TONIGHT! ◄\n\nSee you in the `jackbox stream` voice channel and #jackbox!\n\nhttps://imgur.com/a/yMPISv8",
+      "enabled": false
+    },
+    {
+      "name": "friday_night_stream",
+      "pretty_name": "Friday Night Stream",
+      "delay": 604800,
+      "last_sent": 1615573800,
+      "id": 688888624942678051,
+      "message": "► FRIDAY NIGHTS STREAM IS OPEN! ◄\n\nWe're starting at 7pm!\n\nCheck pinned messages in #weekend-streams for links/details.\n\nhttps://imgur.com/dQo8ici",
       "enabled": false
     }
   ]
