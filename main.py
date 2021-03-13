@@ -49,7 +49,9 @@ async def list_announcements(ctx):
     if len(config["announcements"]) > 0:
         for announcement in config["announcements"]:
             logger.debug(f"Adding announcement {repr(announcement['name'])} to embed!")
-            embed.add_field(name=announcement["pretty_name"], value=announcement["name"], inline=True)
+            embed.add_field(name=announcement["pretty_name"],
+                            value=f"{announcement['name']} - {'active' if announcement['enabled'] else 'disabled'}",
+                            inline=True)
     else:
         embed.add_field(name="No announcement found!",
                         value="Please edit the configuration file for more announcements!", inline=True)
