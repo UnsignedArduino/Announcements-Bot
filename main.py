@@ -1,3 +1,7 @@
+# OAuth2 URL: https://discord.com/api/oauth2/authorize?client_id=819982964297039872&permissions=18432&scope=bot
+# Scopes: bot
+# Bot perms: Send Messages, Embed Links
+
 import os
 import discord
 from discord.ext import commands, tasks
