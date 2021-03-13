@@ -1,6 +1,6 @@
-# OAuth2 URL: https://discord.com/api/oauth2/authorize?client_id=819982964297039872&permissions=18432&scope=bot
+# OAuth2 URL: https://discord.com/api/oauth2/authorize?client_id=819982964297039872&permissions=26624&scope=bot
 # Scopes: bot
-# Bot perms: Send Messages, Embed Links
+# Bot perms: Send Messages, Embed Links, Manage Messages
 
 import os
 import discord
@@ -21,7 +21,8 @@ logger = create_logger(name=__name__, level=logging.DEBUG)
 load_dotenv()
 TOKEN = os.getenv("DISCORD_TOKEN")
 
-bot = commands.Bot(command_prefix="~", help_command=PrettyHelp(show_index=False, no_category="Commands"))
+bot = commands.Bot(command_prefix="~", help_command=PrettyHelp(show_index=False, no_category="Commands",
+                                                               color=discord.Color(0xff7069)))
 
 config = json.loads(CONFIG_PATH.read_text())
 logger.debug(f"Configuration:\n{repr(config)}")
@@ -39,7 +40,7 @@ async def ping(ctx):
     logger.debug(f"Ping requested from {repr(ctx)}")
     ping_ms = round(bot.latency * 1000)
     logger.debug(f"Ping is {repr(ping_ms)} ms")
-    embed = discord.Embed(title="🏓 Pong! 🏓", description=f"Latency is {ping_ms} ms!")
+    embed = discord.Embed(title="🏓 Pong! 🏓", description=f"Latency is {ping_ms} ms!", color=0xff7069)
     await ctx.send(embed=embed)
 
 
@@ -47,7 +48,8 @@ async def ping(ctx):
 async def list_announcements(ctx):
     logger.debug(f"List of announcements requested from {repr(ctx)}")
     embed = discord.Embed(title="📃 Announcements list 📃",
-                          description="List of announcements - use ~status announcement_name to check its status!")
+                          description="List of announcements - use ~status announcement_name to check its status!",
+                          color=0xff7069)
     if len(config["announcements"]) > 0:
         for announcement in config["announcements"]:
             logger.debug(f"Adding announcement {repr(announcement['name'])} to embed!")
@@ -67,7 +69,7 @@ async def announcement_status(ctx, name: str):
     for announcement in config["announcements"]:
         if announcement["name"] == name:
             specified_announcement = announcement
-    embed = discord.Embed(title="📢 Announcement 📢", description=f"Status of announcement {repr(name)}")
+    embed = discord.Embed(title="📢 Announcement 📢", description=f"Status of announcement {repr(name)}", color=0xff7069)
     if specified_announcement is None:
         embed.add_field(name="Error!",
                         value="That is not an announcement! You can list announcements with the ~list command!",
@@ -90,7 +92,7 @@ async def enable(ctx, name: str):
     for announcement in config["announcements"]:
         if announcement["name"] == name:
             specified_announcement = announcement
-    embed = discord.Embed(title="📢 Announcement 📢", description=f"Enable announcement {repr(name)}")
+    embed = discord.Embed(title="📢 Announcement 📢", description=f"Enable announcement {repr(name)}", color=0xff7069)
     if specified_announcement is None:
         embed.add_field(name="Error!",
                         value="That is not an announcement! You can list announcements with the ~list command!",
@@ -110,7 +112,7 @@ async def disable(ctx, name: str):
     for announcement in config["announcements"]:
         if announcement["name"] == name:
             specified_announcement = announcement
-    embed = discord.Embed(title="📢 Announcement 📢", description=f"Disable announcement {repr(name)}")
+    embed = discord.Embed(title="📢 Announcement 📢", description=f"Disable announcement {repr(name)}", color=0xff7069)
     if specified_announcement is None:
         embed.add_field(name="Error!",
                         value="That is not an announcement! You can list announcements with the ~list command!",
@@ -150,7 +152,7 @@ async def check_to_send():
 @bot.event
 async def on_command_error(ctx, error):
     logger.exception("Uh oh! An exception has occurred!")
-    embed = discord.Embed(title="⚠️ Error! ⚠️", description="😕 An error has occurred!")
+    embed = discord.Embed(title="⚠️ Error! ⚠️", description="😕 An error has occurred!", color=0xff7069)
     embed.add_field(name="Error:", value=error, inline=True)
     await ctx.send(embed=embed)
 
