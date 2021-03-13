@@ -5,6 +5,7 @@
 import os
 import discord
 from discord.ext import commands, tasks
+from pretty_help import PrettyHelp
 from dotenv import load_dotenv
 import json
 from pathlib import Path
@@ -20,7 +21,7 @@ logger = create_logger(name=__name__, level=logging.DEBUG)
 load_dotenv()
 TOKEN = os.getenv("DISCORD_TOKEN")
 
-bot = commands.Bot(command_prefix="~")
+bot = commands.Bot(command_prefix="~", help_command=PrettyHelp(show_index=False, no_category="Commands"))
 
 config = json.loads(CONFIG_PATH.read_text())
 logger.debug(f"Configuration:\n{repr(config)}")
