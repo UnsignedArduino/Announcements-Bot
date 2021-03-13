@@ -32,7 +32,7 @@ async def on_ready():
     check_to_send.start()
 
 
-@bot.command(name="ping")
+@bot.command(name="ping", help="Gets the latency of the bot")
 async def ping(ctx):
     logger.debug(f"Ping requested from {repr(ctx)}")
     ping_ms = round(bot.latency * 1000)
@@ -41,7 +41,7 @@ async def ping(ctx):
     await ctx.send(embed=embed)
 
 
-@bot.command(name="list")
+@bot.command(name="list", help="Lists all announcements")
 async def list_announcements(ctx):
     logger.debug(f"List of announcements requested from {repr(ctx)}")
     embed = discord.Embed(title="📃 Announcements list 📃",
@@ -55,6 +55,28 @@ async def list_announcements(ctx):
     else:
         embed.add_field(name="No announcement found!",
                         value="Please edit the configuration file for more announcements!", inline=True)
+    await ctx.send(embed=embed)
+
+
+@bot.command(name="status", help="Gets the status of an announcement")
+async def announcement_status(ctx, name: str):
+    logger.debug(f"Status of announcement requested from {repr(ctx)}")
+    specified_announcement = None
+    for announcement in config["announcements"]:
+        if announcement["name"] == name:
+            specified_announcement = announcement
+    if specified_announcement is None:
+        embed = discord.Embed(title="📢 Announcement 📢", description=f"Status of announcement {repr(name)}")
+        embed.add_field(name="Error!",
+                        value="That is not an announcement! You can list announcements with the ~list command!",
+                        inline=True)
+    else:
+        embed = discord.Embed(title="📢 Announcement 📢", description=f"Status of announcement {repr(name)}")
+        embed.add_field(name="Pretty name", value=specified_announcement["pretty_name"], inline=True)
+        embed.add_field(name="Enabled", value=specified_announcement["enabled"], inline=True)
+        # Prettify with arrow
+        embed.add_field(name="Last triggered", value=specified_announcement["last_sent"], inline=True)
+        embed.add_field(name="Delay", value=specified_announcement["delay"], inline=True)
     await ctx.send(embed=embed)
 
 
@@ -77,6 +99,14 @@ async def check_to_send():
     logger.debug(f"Saving configuration to {repr(CONFIG_PATH)}...")
     CONFIG_PATH.write_text(json.dumps(config, indent=2))
     logger.debug(f"Finished!")
+
+
+@bot.event
+async def on_command_error(ctx, error):
+    logger.exception("Uh oh! An exception has occurred!")
+    embed = discord.Embed(title="⚠️ Error! ⚠️", description="😕 An error has occurred!")
+    embed.add_field(name="Error:", value=error, inline=True)
+    await ctx.send(embed=embed)
 
 
 bot.run(TOKEN)

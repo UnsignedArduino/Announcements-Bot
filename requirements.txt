@@ -2,3 +2,5 @@
 discord.py
 # for dotenv
 python-dotenv
+# for arrow
+arrow
