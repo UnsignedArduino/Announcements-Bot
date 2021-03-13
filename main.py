@@ -1,4 +1,5 @@
 import os
+import discord
 from discord.ext import commands, tasks
 from dotenv import load_dotenv
 import json
@@ -23,6 +24,7 @@ logger.debug(f"Configuration:\n{repr(config)}")
 @bot.event
 async def on_ready():
     logger.info(f"{bot.user} has connected to {len(bot.guilds)} guild(s)!")
+    await bot.change_presence(activity=discord.Activity(type=discord.ActivityType.listening, name="~"))
     check_to_send.start()
 
 
