@@ -3,10 +3,10 @@
     {
       "name": "spam",
       "delay": 5,
-      "last_sent": 1615594121.0583794,
+      "last_sent": 1615600488.2204857,
       "id": 789669963118936094,
       "message": "SPAM",
-      "enabled": true
+      "enabled": false
     }
   ]
 }

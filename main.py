@@ -28,7 +28,16 @@ async def on_ready():
     check_to_send.start()
 
 
-@tasks.loop(minutes=0, seconds=2)
+@bot.command(name="ping")
+async def ping(ctx):
+    logger.debug(f"Ping requested from {repr(ctx)}")
+    ping_ms = round(bot.latency * 1000)
+    logger.debug(f"Ping is {repr(ping_ms)} ms")
+    embed = discord.Embed(title="🏓 Pong! 🏓", description=f"Latency is {ping_ms} ms!")
+    await ctx.send(embed=embed)
+
+
+@tasks.loop(minutes=1)
 async def check_to_send():
     logger.debug(f"Checking for messages to send...")
     for announcement in config["announcements"]:
